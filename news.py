@@ -12,12 +12,7 @@ class NewsFeed:
         self.language = language
 
     def get(self):
-        url = f"{self.base_url}" \
-              f"qInTitle={self.interest}&" \
-              f"from={self.from_date}&" \
-              f"to={self.to_date}&" \
-              f"language={self.language}&" \
-              f"apiKey={self.api_key}"
+        url = self._build_url()
 
         response = requests.get(url)
         content = response.json()
@@ -30,6 +25,16 @@ class NewsFeed:
             return email_body
         else:
             return 'no articles found.'
+
+    def _build_url(self):
+        url = f"{self.base_url}" \
+              f"qInTitle={self.interest}&" \
+              f"from={self.from_date}&" \
+              f"to={self.to_date}&" \
+              f"language={self.language}&" \
+              f"apiKey={self.api_key}"
+        return url
+
 
 news_feed = NewsFeed(interest='nasa', from_date='2020-11-12', to_date='2022-11-13', language='en')
 print(news_feed.get())
